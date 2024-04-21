@@ -1,9 +1,9 @@
 import React from "react"
-import getPokemonIcon, { PokemonType } from "../TypeIcon"
+import getPokemonIcon, { PokemonLabelType } from "../TypeIcon"
 import styles from "./styles.module.scss"
 
 type Props = {
-    type: PokemonType
+    type: PokemonLabelType
 }
 
 const TypeLabel = (props: Props) => {

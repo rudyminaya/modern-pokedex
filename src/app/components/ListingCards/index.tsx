@@ -3,7 +3,6 @@ import styles from "./styles.module.scss"
 import ItemCard from "../ItemCard"
 import { getPokemon, getPokemonsPaginated } from "@/services/pokemonService"
 import { PokemonDetail } from "@/types"
-import { ADDRGETNETWORKPARAMS } from "dns"
 
 type Props = {
   listingData: PokemonDetail[]
@@ -37,7 +36,7 @@ const ListingCards = (props: Props) => {
             <ItemCard
               key={`listing-${item.name}-${index}`}
               id={item.id}
-              img={item.sprites.other['official-artwork'].front_default}
+              img={item?.sprites.front_default ?? item?.sprites?.other?.['official-artwork']?.front_default}
               name={item.name}
             />
           )

@@ -1,3 +1,5 @@
+import { PokemonDetail, PokemonTypeDetail } from "@/types"
+
 const urlBase = "https://pokeapi.co/api/v2"
 
 type PokemonResultType = {
@@ -25,8 +27,19 @@ const getAllPokemons = async (
   //validar tipado con Joi
 }
 
-const getPokemon = async (url: string): Promise<any> => {
+const getPokemon = async (url: string): Promise<PokemonDetail> => {
   const response = await fetch(url)
+  return response.json()
+}
+
+const getPokemonFromID = async (id: number): Promise<PokemonDetail> => {
+  const response = await fetch(`${urlBase}/pokemon/${id}`)
+  return response.json()
+
+}
+
+const getTypePokemon = async (id: string): Promise<PokemonTypeDetail> => {
+  const response = await fetch(`${urlBase}/type/${id}`)
   return response.json()
 }
 
@@ -67,4 +80,4 @@ const getAllRegions = async (
   }
   return results
 }
-export { getAllPokemons, getPokemonsPaginated, getAllTypes, getAllRegions, getPokemon }
+export { getAllPokemons, getPokemonsPaginated, getAllTypes, getAllRegions, getPokemon, getTypePokemon,getPokemonFromID}

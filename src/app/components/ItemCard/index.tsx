@@ -1,5 +1,6 @@
 import React from "react"
 import styles from "./styles.module.scss"
+import Link from "next/link"
 
 type Props = {
   name: string
@@ -9,7 +10,7 @@ type Props = {
 
 const ItemCard = (props: Props) => {
   return (
-    <div className={styles.itemCard}>
+    <Link href={`/pokemon/${props.id}`} className={styles.itemCard}>
       <p className={styles.itemCard__id}>#{props.id}</p>
       <img
         className={styles.itemCard__image}
@@ -17,7 +18,7 @@ const ItemCard = (props: Props) => {
         alt={props.name}
       />
       <p className={styles.itemCard__name}>{props.name}</p>
-    </div>
+    </Link>
   )
 }
 

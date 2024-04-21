@@ -20,6 +20,8 @@ const InitialState: State = {
     timestamp: 0,
     data: [],
   },
+  pokemon_detail: undefined,
+  pokemon_type: undefined,
   pokemon_page: { next: null, previous: null, results: [] },
   favorites: [],
   regions: {
@@ -103,12 +105,29 @@ async function reducer(state: State, action: Action): Promise<State> {
         break
       }
     }
-    case "LOAD_FAVORITES":
+    case "LOAD_FAVORITES": {
       newState = {
         ...state,
         favorites: [],
       }
       break
+    }
+    case "LOAD_POKEMON_DETAIL_FROM_URL": {
+      const result = await PokemonService.getPokemon(action.payload.url)
+      newState = {
+        ...state,
+        pokemon_detail: result,
+      }
+      break
+    }
+    case "LOAD_POKEMON_DETAIL_FROM_ID": {
+      const result = await PokemonService.getPokemonFromID(action.payload.id)
+      newState = {
+        ...state,
+        pokemon_detail: result,
+      }
+      break
+    }
     default:
       break
   }

@@ -1,7 +1,11 @@
 import React from 'react';
 
-export const PokeBallIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 182 182">
+type Props={
+    className?:string
+}
+
+export const PokeBallIcon = (props:Props) => (
+    <svg className={props.className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 182 182">
         <defs>
             <style>{`.cls-1{fill:none;}.cls-2{fill:#fff;}`}</style>
         </defs>
