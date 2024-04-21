@@ -1,0 +1,14 @@
+.typeLabel{
+    display: flex;
+    justify-content: center;    
+    width: fit-content;
+    column-gap: 5px;
+    color:#FFFFFF;
+    padding: 2px 15px;
+    border-radius: 10px;
+    cursor: default;
+
+    & svg{
+        height: 20px;
+    }
+}

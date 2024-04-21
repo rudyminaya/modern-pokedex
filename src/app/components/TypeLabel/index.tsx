@@ -1,12 +1,17 @@
-import React from 'react'
-import getPokemonIcon,{ PokemonType } from '../TypeIcon'
+import React from "react"
+import getPokemonIcon, { PokemonType } from "../TypeIcon"
+import styles from "./styles.module.scss"
 
-type Props = {}
+type Props = {
+    type: PokemonType
+}
 
 const TypeLabel = (props: Props) => {
-    const type = getPokemonIcon(PokemonType.Ice)
+  const type = getPokemonIcon(props.type)
   return (
-    <div>{type.name} {type?.icon} {type?.color}</div>
+    <div className={styles.typeLabel} style={{backgroundColor:type?.color}}>
+      {type?.icon} {type.name}
+    </div>
   )
 }
 

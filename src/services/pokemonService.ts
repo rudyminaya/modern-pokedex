@@ -1,7 +1,17 @@
 const urlBase = 'https://pokeapi.co/api/v2'
 
-const getAllPokemons = async (nextURL:string | null):Promise<({name:string,url:string}[])> => {
-    const response = await fetch(nextURL??`${urlBase}/pokemon?limit=20`)
+type PokemonResultType={
+    name:string,
+    url:string
+}
+type Paginated<T>={
+    results:T[],
+    next:string | null
+    previous:string | null
+}
+
+const getAllPokemons = async (nextURL:string | null = null):Promise<PokemonResultType[]> => {
+    const response = await fetch(nextURL??`${urlBase}/pokemon?limit=1000`)
     const data = await response.json()
     const results = data.results
     const next = data.next as string | null
@@ -13,7 +23,12 @@ const getAllPokemons = async (nextURL:string | null):Promise<({name:string,url:s
     //validar tipado con Joi
 }
 
-const getAllTypes = async(nextURL:string | null):Promise<({name:string,url:string}[])> => {
+const getPokemonsPaginated = async (limit:number, offset:number):Promise<Paginated<PokemonResultType>> => {
+    const result = await fetch(`${urlBase}/pokemon?limit=${limit}&offset=${offset}`)
+    return result.json()
+}
+
+const getAllTypes = async(nextURL:string | null = null):Promise<PokemonResultType[]> => {
     const response = await fetch(nextURL??`${urlBase}/type`)
     const data = await response.json()
     const results = data.results
@@ -25,7 +40,7 @@ const getAllTypes = async(nextURL:string | null):Promise<({name:string,url:strin
     return results
 }
 
-const getAllRegions = async(nextURL:string | null):Promise<({name:string,url:string}[])> => {
+const getAllRegions = async(nextURL:string | null = null):Promise<PokemonResultType[]> => {
     const response = await fetch(nextURL??`${urlBase}/region`)
     const data = await response.json()
     const results = data.results
@@ -35,4 +50,10 @@ const getAllRegions = async(nextURL:string | null):Promise<({name:string,url:str
         return [...results, ...nextData]
     }
     return results
+}
+export {
+    getAllPokemons,
+    getPokemonsPaginated,
+    getAllTypes,
+    getAllRegions
 }

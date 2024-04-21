@@ -1,86 +1,35 @@
-'use client'
-import { Dispatch, ReactNode, createContext, useMemo, useReducer } from "react"
+"use client"
+import { State } from "@/types"
+import { Dispatch, ReactNode, createContext, useMemo } from "react"
+import { Action } from "./actionTypes"
+import useAsyncReducer from "@/app/hooks/reducer"
+import * as PokemonService from "@/services/pokemonService"
+import * as CacheService from "@/services/cacheServices"
 
-type IProps={
-    children:ReactNode
-}
-
-type Cached<T> = {
-  timestamp: number
-  data: T
-}
-type PokemonType = {
-  name: string
-  id: number
-}
-type PokemonIndex = {
-  name: string
-  id: number
-}
-type PokemonRegion = {
-  name: string
-  id: number
-}
-type State = {
-  pokemon_all: Cached<PokemonIndex[]>
-  favorites: number[]
-  regions: Cached<PokemonRegion[]>
-  types: Cached<PokemonType[]>
+type IProps = {
+  children: ReactNode
 }
 
 const enum StorageType {
   LOCALSTORAGE,
   SESSIONSTORAGE,
 }
-const enum StorageKey {
-  POKEMON_ALL = "POKEMON_ALL",
-  FAVORITES = "FAVORITES",
-  REGIONS = "REGIONS",
-  TYPES = "TYPES",
-}
-
-type StoreDataType<T> = T extends StorageKey.FAVORITES
-  ? number[]
-  : T extends StorageKey.POKEMON_ALL
-  ? PokemonIndex[]
-  : T extends StorageKey.REGIONS
-  ? PokemonRegion[]
-  : T extends StorageKey.TYPES
-  ? PokemonType[]
-  : never
-
-type Action =
-  | { type: "SET_POKEMON_ALL"; payload: PokemonIndex[] }
-  | { type: "ADD_FAVORITE"; payload: number }
-  | { type: "REMOVE_FAVORITE"; payload: number }
-  | { type: "SET_REGIONS"; payload: PokemonRegion[] }
-  | { type: "SET_TYPES"; payload: PokemonType[] }
-  | { type: "SET_POKEMON"; payload: PokemonIndex[] }
-  | { type: "LOAD_POKEMON_ALL" }
-  | { type: "LOAD_REGIONS" }
-  | { type: "LOAD_TYPES" }
-  | { type: "LOAD_FAVORITES" }
-
-function loadFromLocalStorage<T>(key: StorageKey) {
-  const item = localStorage.getItem(key)
-  return item ? (JSON.parse(item) as T) : null
-}
-loadFromLocalStorage(StorageKey.FAVORITES)
 
 const InitialState: State = {
-  pokemon_all: loadFromLocalStorage(StorageKey.POKEMON_ALL) || {
+  pokemon_all: {
     timestamp: 0,
     data: [],
   },
-  favorites: loadFromLocalStorage(StorageKey.FAVORITES) || [],
-  regions: loadFromLocalStorage(StorageKey.REGIONS) || {
+  pokemon_page: { next: null, previous: null, results: [] },
+  favorites: [],
+  regions: {
     timestamp: 0,
     data: [],
   },
-  types: loadFromLocalStorage(StorageKey.TYPES) || { timestamp: 0, data: [] },
+  types: { timestamp: 0, data: [] },
 }
 
-const StoreContext = createContext<{
+export const StoreContext = createContext<{
   state: State
   dispatch: Dispatch<Action>
 }>({
@@ -88,15 +37,9 @@ const StoreContext = createContext<{
   dispatch: () => null,
 })
 
-function reducer(state: State, action: Action): State {
+async function reducer(state: State, action: Action): Promise<State> {
   let newState = state
   switch (action.type) {
-    case "SET_POKEMON_ALL":
-      newState = {
-        ...state,
-        pokemon_all: { timestamp: Date.now(), data: action.payload },
-      }
-      break
     case "ADD_FAVORITE":
       newState = { ...state, favorites: [...state.favorites, action.payload] }
       break
@@ -106,55 +49,64 @@ function reducer(state: State, action: Action): State {
         favorites: state.favorites.filter((fav) => fav !== action.payload),
       }
       break
-    case "SET_REGIONS":
-      newState = {
-        ...state,
-        regions: { timestamp: Date.now(), data: action.payload },
+    case "LOAD_POKEMON_ALL": {
+      const cachedResult = await CacheService.getAllPokemon()
+      if (cachedResult.timestamp > 0) {
+        newState = {
+          ...state,
+          pokemon_all: cachedResult,
+        }
+        break
+      } else {
+        const result = await PokemonService.getAllPokemons()
+        await CacheService.saveAllPokemon(result)
+        newState = {
+          ...state,
+          pokemon_all: { timestamp: Date.now(), data: result },
+        }
+        break
       }
-      break
-    case "SET_TYPES":
-      newState = {
-        ...state,
-        types: { timestamp: Date.now(), data: action.payload },
+    }
+    case "LOAD_REGIONS": {
+      const cachedRegions = await CacheService.getAllRegions()
+      if (cachedRegions.timestamp > 0) {
+        newState = {
+          ...state,
+          regions: cachedRegions,
+        }
+        break
+      } else {
+        const result = await PokemonService.getAllRegions()
+        await CacheService.saveAllRegions(result)
+        newState = {
+          ...state,
+          regions: { timestamp: Date.now(), data: result },
+        }
+        break
       }
-      break
-    case "SET_POKEMON":
-      newState = {
-        ...state,
-        pokemon_all: { timestamp: Date.now(), data: action.payload },
+    }
+    case "LOAD_TYPES": {
+      const cachedTypes = await CacheService.getAllTypes()
+      if (cachedTypes.timestamp > 0) {
+        newState = {
+          ...state,
+          types: cachedTypes,
+        }
+        break
+      } else {
+        const result = await PokemonService.getAllTypes()
+        await CacheService.saveAllTypes(result)
+        newState = {
+          ...state,
+          types: { timestamp: Date.now(), data: result },
+        }
+        break
       }
-      break
-    case "LOAD_POKEMON_ALL":
-      newState = {
-        ...state,
-        pokemon_all: {
-          timestamp: Date.now(),
-          data: loadFromLocalStorage(StorageKey.POKEMON_ALL) || [],
-        },
-      }
-      break
-    case "LOAD_REGIONS":
-      newState = {
-        ...state,
-        regions: {
-          timestamp: Date.now(),
-          data: loadFromLocalStorage(StorageKey.REGIONS) || [],
-        },
-      }
-      break
-    case "LOAD_TYPES":
-      newState = {
-        ...state,
-        types: {
-          timestamp: Date.now(),
-          data: loadFromLocalStorage(StorageKey.TYPES) || [],
-        },
-      }
-      break
+    }
     case "LOAD_FAVORITES":
       newState = {
         ...state,
-        favorites: loadFromLocalStorage(StorageKey.FAVORITES) || [],
+        favorites: [],
       }
       break
     default:
@@ -163,15 +115,14 @@ function reducer(state: State, action: Action): State {
   return newState
 }
 
-export const StoreProvider = (props:IProps) => {
+export const StoreProvider = (props: IProps) => {
+  const [state, dispatch] = useAsyncReducer(reducer, InitialState)
 
-    const [state, dispatch] = useReducer(reducer, InitialState)
-
-    const contextValue = useMemo(() => ({ state, dispatch }), [state])
-
-    return (
-        <StoreContext.Provider value={contextValue}>
-            {props.children}
-        </StoreContext.Provider>
-    )
+  //const actions = createActions(dispatch)
+  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch])
+  return (
+    <StoreContext.Provider value={contextValue}>
+      {props.children}
+    </StoreContext.Provider>
+  )
 }

@@ -1,0 +1,32 @@
+@import "../../../styles/variables.scss";
+
+.inputSearch {
+  display: flex;
+  align-items: flex-end;
+  column-gap: 5px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  color: $text-color;
+
+  &>button, &>input{
+    font-size: 16px;
+  }
+
+  &>button{
+    padding: 10px 15px;
+    border:none;
+    border-left: 1px solid $text-color;
+    background-color: transparent;
+    cursor: pointer;
+    
+  }
+
+  & input {
+    outline: none;
+    background-color: transparent;
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 10px 0 10px 15px;
+  }
+}
