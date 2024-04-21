@@ -7,18 +7,25 @@
   border-radius: 15px;
   background-color: #ffffff;
   color: $text-color;
+  overflow: hidden;
 
-  &>button, &>input{
+  & > button,
+  & > input {
     font-size: 16px;
   }
 
-  &>button{
+  & > button {
     padding: 10px 15px;
-    border:none;
+    border: none;
     border-left: 1px solid $text-color;
     background-color: transparent;
     cursor: pointer;
     
+    &[disabled] {
+      background-color: #e7e7e7;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   & input {

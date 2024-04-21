@@ -1,59 +1,70 @@
-const urlBase = 'https://pokeapi.co/api/v2'
+const urlBase = "https://pokeapi.co/api/v2"
 
-type PokemonResultType={
-    name:string,
-    url:string
+type PokemonResultType = {
+  name: string
+  url: string
 }
-type Paginated<T>={
-    results:T[],
-    next:string | null
-    previous:string | null
-}
-
-const getAllPokemons = async (nextURL:string | null = null):Promise<PokemonResultType[]> => {
-    const response = await fetch(nextURL??`${urlBase}/pokemon?limit=1000`)
-    const data = await response.json()
-    const results = data.results
-    const next = data.next as string | null
-    if(next){
-        const nextData = await getAllPokemons(next)
-        return [...results, ...nextData]
-    }
-    return results
-    //validar tipado con Joi
+type Paginated<T> = {
+  results: T[]
+  next: string | null
+  previous: string | null
 }
 
-const getPokemonsPaginated = async (limit:number, offset:number):Promise<Paginated<PokemonResultType>> => {
-    const result = await fetch(`${urlBase}/pokemon?limit=${limit}&offset=${offset}`)
-    return result.json()
+const getAllPokemons = async (
+  nextURL: string | null = null
+): Promise<PokemonResultType[]> => {
+  const response = await fetch(nextURL ?? `${urlBase}/pokemon?limit=1000`)
+  const data = await response.json()
+  const results = data.results
+  const next = data.next as string | null
+  if (next) {
+    const nextData = await getAllPokemons(next)
+    return [...results, ...nextData]
+  }
+  return results
+  //validar tipado con Joi
 }
 
-const getAllTypes = async(nextURL:string | null = null):Promise<PokemonResultType[]> => {
-    const response = await fetch(nextURL??`${urlBase}/type`)
-    const data = await response.json()
-    const results = data.results
-    const next = data.next as string | null
-    if(next){
-        const nextData = await getAllTypes(next)
-        return [...results, ...nextData]
-    }
-    return results
+const getPokemon = async (url: string): Promise<any> => {
+  const response = await fetch(url)
+  return response.json()
 }
 
-const getAllRegions = async(nextURL:string | null = null):Promise<PokemonResultType[]> => {
-    const response = await fetch(nextURL??`${urlBase}/region`)
-    const data = await response.json()
-    const results = data.results
-    const next = data.next as string | null
-    if(next){
-        const nextData = await getAllRegions(next)
-        return [...results, ...nextData]
-    }
-    return results
+const getPokemonsPaginated = async (
+  limit: number,
+  offset: number
+): Promise<Paginated<PokemonResultType>> => {
+  const result = await fetch(
+    `${urlBase}/pokemon?limit=${limit}&offset=${offset}`
+  )
+  return result.json()
 }
-export {
-    getAllPokemons,
-    getPokemonsPaginated,
-    getAllTypes,
-    getAllRegions
+
+const getAllTypes = async (
+  nextURL: string | null = null
+): Promise<PokemonResultType[]> => {
+  const response = await fetch(nextURL ?? `${urlBase}/type`)
+  const data = await response.json()
+  const results = data.results
+  const next = data.next as string | null
+  if (next) {
+    const nextData = await getAllTypes(next)
+    return [...results, ...nextData]
+  }
+  return results
 }
+
+const getAllRegions = async (
+  nextURL: string | null = null
+): Promise<PokemonResultType[]> => {
+  const response = await fetch(nextURL ?? `${urlBase}/region`)
+  const data = await response.json()
+  const results = data.results
+  const next = data.next as string | null
+  if (next) {
+    const nextData = await getAllRegions(next)
+    return [...results, ...nextData]
+  }
+  return results
+}
+export { getAllPokemons, getPokemonsPaginated, getAllTypes, getAllRegions, getPokemon }

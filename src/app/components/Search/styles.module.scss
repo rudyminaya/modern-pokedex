@@ -25,6 +25,15 @@
     opacity: 0.2;
     z-index: 0;
   }
+  &::after{
+    content: "";
+    position: absolute;
+    background-color: #e7e7e7;
+    width: 100%;
+    min-height: 100px;
+    bottom: -60px;
+    clip-path: ellipse(55% 50% at 50% 50%);
+  }
 
   &__container {
     position: relative;

@@ -41,3 +41,4 @@ export type State = {
     previous:string | null
     results:PokemonIndex[]
   }
+  export type PokemonDetail = any

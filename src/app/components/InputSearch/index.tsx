@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import styles from "./styles.module.scss"
 type Props = {
   onSubmit: (value: string) => void
@@ -25,7 +25,9 @@ const InputSearch = (props: Props) => {
         placeholder="Search"
         onChange={handleChange}
       />
-      <button type="submit">🔍︎</button>
+      <button type="submit" disabled={!stringSearchValue.length}>
+        🔍︎
+      </button>
     </form>
   )
 }

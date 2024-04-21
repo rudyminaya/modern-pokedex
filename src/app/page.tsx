@@ -2,11 +2,12 @@
 import { useContext, useEffect, useState } from "react"
 import { StoreContext } from "@/context/Store"
 import Search from "./components/Search"
-import { PokemonIndex } from "@/types"
+import { PokemonDetail } from "@/types"
+import ListingCards from "./components/ListingCards"
 
 export default function Home() {
   const { dispatch } = useContext(StoreContext)
-  const [pokemonData, setPokemonData] = useState<PokemonIndex[]>([])
+  const [pokemonData, setPokemonData] = useState<PokemonDetail[]>([])
 
   useEffect(() => {
     dispatch({
@@ -17,9 +18,10 @@ export default function Home() {
     })
   }, [])
 
-  useEffect(()=>{
-    console.log('data : ', pokemonData)
-  },[pokemonData])
-
-  return <Search pokemonData={(values) => setPokemonData(values)} />
+  return (
+    <>
+      <Search pokemonData={(values) => setPokemonData(values)} />
+      <ListingCards listingData={pokemonData} />
+    </>
+  )
 }

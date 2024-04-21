@@ -3,10 +3,11 @@ import styles from "./styles.module.scss"
 import InputSearch from "../InputSearch"
 import { PokeBallIcon } from "../CustomIcons"
 import { StoreContext } from "@/context/Store"
-import { PokemonIndex } from "@/types"
+import { getPokemon } from "@/services/pokemonService"
+import { PokemonDetail } from "@/types"
 
 type Props = {
-  pokemonData: (data: PokemonIndex[]) => void
+  pokemonData: (data: PokemonDetail[]) => void
 }
 
 const Search = (props: Props) => {
@@ -15,10 +16,17 @@ const Search = (props: Props) => {
     pokemon_all: { data },
   } = state
 
-  const findPokemon = (value: string) => {
+  const findPokemon = async (value: string) => {
     const valueTransformed = value.toLowerCase()
-    const result = data.filter((p: any) => p.name.includes(valueTransformed))    
-    props.pokemonData(result)
+    const result = data.filter((p: any) => p.name.includes(valueTransformed))
+
+    const newData = await Promise.all(
+      result.map(async (item: any) => {
+        const pokemon = await getPokemon(item.url)
+        return pokemon
+      })
+    )
+    props.pokemonData(newData)
   }
   return (
     <main className={styles.search}>
