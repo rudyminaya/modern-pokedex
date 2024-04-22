@@ -1,33 +1,31 @@
-"use client";
-import React, { Fragment, useEffect, useState } from "react";
-import styles from "./styles.module.scss";
-import getPokemonIcon, { getPokemonLabelType } from "../../TypeIcon";
+"use client"
+import React, { Fragment, useEffect, useState } from "react"
+import styles from "./styles.module.scss"
+import getPokemonIcon, { getPokemonLabelType } from "../../TypeIcon"
 
 type Props = {
-  description: string | undefined;
-  height: number;
-  weight: number;
-  advantageAgainstType: string[];
-};
+  description: string | undefined
+  height: number
+  weight: number
+  advantageAgainstType: string[]
+}
 
 const About = (props: Props) => {
-  console.log("rendering about with", props);
-
-  const [advantagesValues, setAdvantagesValues] = useState<string[]>([]);
+  const [advantagesValues, setAdvantagesValues] = useState<string[]>([])
   useEffect(() => {
-    setAdvantagesValues(props.advantageAgainstType);
-  }, [props.advantageAgainstType]);
+    setAdvantagesValues(props.advantageAgainstType)
+  }, [props.advantageAgainstType])
 
   const generateAdvantages = () => {
     if (advantagesValues && advantagesValues.length > 0) {
       return advantagesValues.map((type: string, index: number) => {
-        const icon = getPokemonIcon(getPokemonLabelType(type));
+        const icon = getPokemonIcon(getPokemonLabelType(type))
 
-        return <Fragment key={`iconAgainst-${index}`}>{icon.icon}</Fragment>;
-      });
+        return <Fragment key={`iconAgainst-${index}`}>{icon.icon}</Fragment>
+      })
     }
-  };
-  const advantages = generateAdvantages();
+  }
+  const advantages = generateAdvantages()
   return (
     <div className={styles.about}>
       <h3>About</h3>
@@ -47,7 +45,7 @@ const About = (props: Props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default About;
+export default About

@@ -21,7 +21,7 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
     loadPokemonFromId(Number(id), dispatch)
   }, [id])
 
-  console.log('state : ', state)
+  console.log("state : ", state)
 
   const nextPokemon = () => {
     const nextId = parseInt(id) + 1
@@ -55,19 +55,18 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
 
   return (
     <main
+      className={styles.pokemonSinglePage}
       style={{
         background: `linear-gradient(0deg, ${typeValues?.color}80 0%, ${typeValues?.color} 100%)`,
-        minHeight: "100vh",
-        overflow: "hidden",
       }}
     >
-      <div className={styles.pokemonSinglePage}>
+      <PokeBallIcon className={styles.pokemonSinglePage__bg} />
+      <div className={styles.pokemonSinglePage__container}>
         <h1 className={styles.pokemonSinglePage__title}>
           <PokeBallIcon /> <span>{pokemon?.detail.name}</span>{" "}
           <span>#{id}</span>{" "}
         </h1>
         <div className={styles.pokemonSinglePage__image}>
-          <PokeBallIcon className={styles.pokemonSinglePage__image__bg} />
           <img src={urlImage} alt={pokemon?.detail.name} />
           {pokemon?.type?.length && (
             <div className={styles.pokemonSinglePage__types}>
@@ -103,9 +102,12 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
               (v) => v.language.name === "en"
             )?.flavor_text
           }
+          color={typeValues?.color}
           status={statsValues ?? []}
           evolution={pokemon?.evolutionChain ?? []}
-          advantageAgainstType={state.pokemon_detail?.advantageAgainstTypes ?? []}
+          advantageAgainstType={
+            state.pokemon_detail?.advantageAgainstTypes ?? []
+          }
         />
       </div>
     </main>
