@@ -37,7 +37,7 @@ const About = (props: Props) => {
         </div>
         <div className={styles.about__size__item}>
           <p>Weight</p>
-          <p>{props.weight}.0 kg</p>
+          <p>{props.weight} kg</p>
         </div>
         <div className={styles.about__size__item}>
           <p>Strong against</p>
