@@ -4,6 +4,7 @@
   padding-top: 30px;
   padding-bottom: 30px;
   position: relative;
+  z-index: 2;
 
   &__title {
     display: flex;
@@ -40,6 +41,12 @@
       width: auto;
       margin-bottom: 20px;
     }
+  }
+  &__types{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    align-items: center;
   }
   &__navigation {
     display: flex;

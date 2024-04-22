@@ -10,5 +10,4 @@ export type Action =
   | { type: "LOAD_FAVORITES" }
   | { type: "LOAD_POKEMON_DETAIL_FROM_ID"; payload: { id: number } }
   | { type: "LOAD_POKEMON_DETAIL_FROM_URL"; payload: { url: string } }
-  | { type: "LOAD_POKEMON_SPECIES"; payload: number }
   | { type: "LOAD_POKEMON_TYPE"; payload: string }

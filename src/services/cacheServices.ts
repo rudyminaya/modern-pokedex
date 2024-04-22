@@ -8,23 +8,34 @@ const enum StorageKey {
 }
 
 const isStillValid = (timestamp: number) => {
-  return Date.now() - timestamp < 86400000
+  const dateValidate = Date.now() - timestamp < 86400000
+  console.log('date values : ', {
+    dateValidate,
+    timestamp,
+    now: Date.now()
+  })
+  return dateValidate
 }
 
 const saveAllPokemon = async (pokemon: PokemonIndex[]) => {
-  const timeStamp = Date.now()
-  const data = JSON.stringify({ timeStamp, data: pokemon })
+  const timestamp = Date.now()
+  const data = JSON.stringify({ timestamp, data: pokemon })
   localStorage.setItem(StorageKey.POKEMON_ALL, data)
 }
 
 const getAllPokemon = async (): Promise<Cached<PokemonIndex[]>> => {
   const data = localStorage.getItem(StorageKey.POKEMON_ALL)
+  console.log('1...')
   if (!data) return { timestamp: 0, data: [] }
+  console.log('2...')
   const savedData = JSON.parse(data) as Cached<PokemonIndex[]>
+  console.log('3...')
   if (!isStillValid(savedData.timestamp)){
+    console.log('4...')
     localStorage.removeItem(StorageKey.POKEMON_ALL)
     return { timestamp: 0, data: [] }
   }
+  console.log('5...')
   return savedData
 }
 
@@ -40,8 +51,8 @@ const getAllRegions = async (): Promise<Cached<PokemonRegion[]>> => {
 }
 
 const saveAllRegions = async (regions: PokemonRegion[]) => {
-    const timeStamp = Date.now()
-    const data = JSON.stringify({ timeStamp, data: regions })
+    const timestamp = Date.now()
+    const data = JSON.stringify({ timestamp, data: regions })
     localStorage.setItem(StorageKey.REGIONS, data)
 }
 
@@ -57,8 +68,8 @@ const getAllTypes = async (): Promise<Cached<PokemonIndex[]>> => {
 }
 
 const saveAllTypes = async (types: PokemonIndex[]) => {
-    const timeStamp = Date.now()
-    const data = JSON.stringify({ timeStamp, data: types })
+    const timestamp = Date.now()
+    const data = JSON.stringify({ timestamp, data: types })
     localStorage.setItem(StorageKey.TYPES, data)
 }
 

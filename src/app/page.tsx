@@ -9,10 +9,7 @@ export default function Home() {
   const { dispatch } = useContext(StoreContext)
   const [pokemonData, setPokemonData] = useState<PokemonDetail[]>([])
 
-  useEffect(() => {
-    dispatch({
-      type: "LOAD_POKEMON_ALL",
-    })
+  useEffect(() => {    
     dispatch({
       type: "LOAD_POKEMON_PAGINATED",
     })

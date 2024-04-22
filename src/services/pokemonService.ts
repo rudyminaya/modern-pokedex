@@ -1,4 +1,10 @@
-import { PokemonDetail, PokemonTypeDetail } from "@/types"
+import {
+  PokemonDetail,
+  PokemonEvolutionChainType,
+  PokemonLocationType,
+  PokemonSpecieType,
+  PokemonTypeDetail,
+} from "@/types"
 
 const urlBase = "https://pokeapi.co/api/v2"
 
@@ -35,7 +41,15 @@ const getPokemon = async (url: string): Promise<PokemonDetail> => {
 const getPokemonFromID = async (id: number): Promise<PokemonDetail> => {
   const response = await fetch(`${urlBase}/pokemon/${id}`)
   return response.json()
+}
+const getPokemonFromName = async (name: string): Promise<PokemonDetail> => {
+  const response = await fetch(`${urlBase}/pokemon/${name}`)
+  return response.json()
+}
 
+const getPokemonSpecie = async (id: number): Promise<PokemonSpecieType> => {
+  const response = await fetch(`${urlBase}/pokemon-species/${id}`)
+  return response.json()
 }
 
 const getTypePokemon = async (id: string): Promise<PokemonTypeDetail> => {
@@ -80,4 +94,31 @@ const getAllRegions = async (
   }
   return results
 }
-export { getAllPokemons, getPokemonsPaginated, getAllTypes, getAllRegions, getPokemon, getTypePokemon,getPokemonFromID}
+
+const getEvolutionChain = async (
+  url: string
+): Promise<PokemonEvolutionChainType> => {
+  const response = await fetch(url)
+  return response.json()
+}
+
+const getPokemonLocations = async (
+  url: string
+): Promise<PokemonLocationType[]> => {
+  const response = await fetch(url)
+  return response.json()
+}
+
+export {
+  getAllPokemons,
+  getPokemonsPaginated,
+  getAllTypes,
+  getAllRegions,
+  getPokemon,
+  getTypePokemon,
+  getPokemonFromID,
+  getPokemonSpecie,
+  getEvolutionChain,
+  getPokemonFromName,
+  getPokemonLocations,
+}

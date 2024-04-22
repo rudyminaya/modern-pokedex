@@ -18,8 +18,12 @@ export type Cached<T> = {
 export type State = {
   pokemon_all: Cached<PokemonIndex[]>
   pokemon_page: PokemonPage
-  pokemon_detail:PokemonDetail | undefined
-  pokemon_type: PokemonTypeDetail | undefined
+  pokemon_detail: PokemonDetail | undefined
+  pokemon_specie: PokemonSpecieType | undefined
+  pokemon_evolution_chain: PokemonDetail[] | undefined
+  pokemon_location: PokemonSingleLocation[] | undefined
+  pokemon_type: PokemonTypeDetail[] | undefined
+  advantage_against_types: string[] | undefined
   favorites: number[]
   regions: Cached<PokemonRegion[]>
   types: Cached<PokemonType[]>
@@ -273,4 +277,158 @@ export type Name = {
 export type Pokemon = {
   pokemon: Generation
   slot: number
+}
+
+export type PokemonSpecieType = {
+  base_happiness: number
+  capture_rate: number
+  color: Color
+  egg_groups: Color[]
+  evolution_chain: EvolutionChain
+  evolves_from_species: null
+  flavor_text_entries: FlavorTextEntry[]
+  form_descriptions: any[]
+  forms_switchable: boolean
+  gender_rate: number
+  genera: Genus[]
+  generation: Color
+  growth_rate: Color
+  habitat: Color
+  has_gender_differences: boolean
+  hatch_counter: number
+  id: number
+  is_baby: boolean
+  is_legendary: boolean
+  is_mythical: boolean
+  name: string
+  names: NameSpecie[]
+  order: number
+  pal_park_encounters: PalParkEncounter[]
+  pokedex_numbers: PokedexNumber[]
+  shape: Color
+  varieties: Variety[]
+}
+
+export type Color = {
+  name: string
+  url: string
+}
+
+export type EvolutionChain = {
+  url: string
+}
+
+export type FlavorTextEntry = {
+  flavor_text: string
+  language: Color
+  version: Color
+}
+
+export type Genus = {
+  genus: string
+  language: Color
+}
+
+export type NameSpecie = {
+  language: Color
+  name: string
+}
+
+export type PalParkEncounter = {
+  area: Color
+  base_score: number
+  rate: number
+}
+
+export type PokedexNumber = {
+  entry_number: number
+  pokedex: Color
+}
+
+export type Variety = {
+  is_default: boolean
+  pokemon: Color
+}
+
+export type StatType = {
+  name: string
+  value: number
+  color?: string
+}
+
+export type StatusValues = {
+  hp: StatType
+  attack: StatType
+  defense: StatType
+  "special-attack": StatType
+  "special-defense": StatType
+  speed: StatType
+}
+
+export type PokemonEvolutionChainType = {
+  baby_trigger_item: null
+  chain: Chain
+  id: number
+}
+
+export type Chain = {
+  evolution_details: EvolutionDetail[]
+  evolves_to: Chain[]
+  is_baby: boolean
+  species: EvolutionSpecies
+}
+
+export type EvolutionDetail = {
+  gender: null
+  held_item: null
+  item: null
+  known_move: null
+  known_move_type: null
+  location: null
+  min_affection: null
+  min_beauty: null
+  min_happiness: null
+  min_level: number
+  needs_overworld_rain: boolean
+  party_species: null
+  party_type: null
+  relative_physical_stats: number
+  time_of_day: string
+  trade_species: null
+  trigger: EvolutionSpecies
+  turn_upside_down: boolean
+}
+
+export type EvolutionSpecies = {
+  name: string
+  url: string
+}
+
+export type PokemonLocationType = {
+  location_area: LocationArea
+  version_details: VersionDetailLocation[]
+}
+
+export type LocationArea = {
+  name: string
+  url: string
+}
+
+export type VersionDetailLocation = {
+  encounter_details: EncounterDetail[]
+  max_chance: number
+  version: LocationArea
+}
+
+export type EncounterDetail = {
+  chance: number
+  condition_values: LocationArea[]
+  max_level: number
+  method: LocationArea
+  min_level: number
+}
+
+export type PokemonSingleLocation = {
+  version: string
+  location: string
 }
