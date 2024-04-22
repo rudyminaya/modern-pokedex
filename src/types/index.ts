@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import {
+  FilterPokemonState,
   PokemonDetailState,
   PokemonIndex,
   PokemonPaginationState,
@@ -33,6 +34,7 @@ export type State = {
   pokemon_all: Cached<PokemonIndex[]>;
   pokemon_pagination: PokemonPaginationState;
   pokemon_detail: PokemonDetailState | undefined;
+  pokemon_filtered_by_type: FilterPokemonState;
   favorites: number[];
   regions: Cached<PokemonRegion[]>;
   types: Cached<PokemonType[]>;

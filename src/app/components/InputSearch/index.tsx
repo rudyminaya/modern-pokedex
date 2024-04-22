@@ -1,11 +1,19 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
+import { StoreContext } from "@/context/Store";
 type Props = {
   onSubmit: (value: string) => void;
 };
 
 const InputSearch = (props: Props) => {
   const [stringSearchValue, setStringSearchValue] = useState<string>("");
+  const {state} = useContext(StoreContext)
+
+  useEffect(()=>{
+    if(!state.pokemon_search.searching){
+      setStringSearchValue('')
+    }
+  },[state.pokemon_search.searching])
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,6 +31,7 @@ const InputSearch = (props: Props) => {
         name="searchPokemon"
         id="searchPokemon"
         placeholder="Search"
+        value={stringSearchValue}
         onChange={handleChange}
       />
       <button type="submit">🔍</button>

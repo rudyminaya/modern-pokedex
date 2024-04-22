@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import InputSearch from "../InputSearch";
 import { PokeBallIcon } from "../CustomIcons";
@@ -7,8 +7,8 @@ import { searchPokemonByName } from "@/app/controller/pokemonController";
 
 const Search = () => {
   const { dispatch, state } = useContext(StoreContext);
-
-  const findPokemon = async (value: string) => {
+  
+  const findPokemon = async (value: string) => {    
     searchPokemonByName(value, state.pokemon_all.data, dispatch);
   };
 

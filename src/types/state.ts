@@ -7,8 +7,8 @@ import {
 } from ".";
 
 export type PokemonDetailState = {
-  detail: PokemonDetail;
-  specie: PokemonSpecieType;
+  detail?: PokemonDetail;
+  specie?: PokemonSpecieType;
   evolutionChain: PokemonDetail[];
   type: PokemonTypeDetail[];
   advantageAgainstTypes: string[];
@@ -43,3 +43,10 @@ export type PokemonPage = {
   previous: string | null;
   results: PokemonDetail[];
 };
+
+export type FilterPokemonState ={
+  loading: boolean;
+  results: PokemonDetail[];
+  types: string[];
+  filtering:boolean
+}

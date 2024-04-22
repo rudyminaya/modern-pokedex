@@ -6,20 +6,27 @@ import Search from "./components/Search";
 import ListingCards from "./components/ListingCards";
 import { loadPokemonPaginated } from "./controller/pokemonController";
 import Navigation from "./components/Navigation";
+import { FiltersByType } from "./components/Filters";
 
 export default function Home() {
   const { state, dispatch } = useContext(StoreContext);
 
   useEffect(() => {
     loadPokemonPaginated(state, dispatch);
-  }, []);
+  }, []);  
 
   const pokemonData = useMemo(() => {
+    if(state.pokemon_filtered_by_type.filtering){
+      return state.pokemon_filtered_by_type.results;
+    }
     if (state.pokemon_search.searching) {
       return state.pokemon_search.results;
     }
     return state.pokemon_pagination.page.results;
-  }, [state.pokemon_search, state.pokemon_pagination]);
+  }, [state.pokemon_search, state.pokemon_pagination, state.pokemon_filtered_by_type]);
+  const pokemonDataSorted = useMemo(()=>{
+    return pokemonData.sort((a,b)=>a.id-b.id);
+  },[pokemonData])
 
   const goToPreviousPage = () => {
     if (state.pokemon_pagination.page.previous) {
@@ -39,7 +46,7 @@ export default function Home() {
   return (
     <>
       <Search />
-      {!state.pokemon_search.searching && (
+      {!state.pokemon_search.searching && !state.pokemon_filtered_by_type.filtering &&(
         <Navigation
           prevDisabled={
             !state.pokemon_pagination.page.previous ||
@@ -51,10 +58,11 @@ export default function Home() {
             state.pokemon_pagination.loading
           }
           onNext={goToNextPage}
-        />
+        />        
       )}
-      <ListingCards listingData={pokemonData} />
-      {!state.pokemon_search.searching && (
+      <FiltersByType />
+      <ListingCards listingData={pokemonDataSorted} />
+      {!state.pokemon_search.searching && !state.pokemon_filtered_by_type.filtering && (
         <Navigation
           prevDisabled={
             !state.pokemon_pagination.page.previous ||

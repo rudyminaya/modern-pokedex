@@ -1,11 +1,11 @@
-"use client";
-import { State } from "@/types";
-import { Dispatch, ReactNode, createContext, useMemo, useReducer } from "react";
-import { Action } from "./actionTypes";
+"use client"
+import { State } from "@/types"
+import { Dispatch, ReactNode, createContext, useMemo, useReducer } from "react"
+import { Action } from "./actionTypes"
 
 type IProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 const enum StorageType {
   LOCALSTORAGE,
@@ -19,6 +19,12 @@ const InitialState: State = {
     data: [],
   },
   pokemon_detail: undefined,
+  pokemon_filtered_by_type: {
+    loading: false,
+    results: [],
+    types: [],
+    filtering: false,
+  },
   pokemon_pagination: {
     loading: false,
     page: {
@@ -38,84 +44,114 @@ const InitialState: State = {
     loading: false,
     results: [],
   },
-};
+}
 
 export const StoreContext = createContext<{
-  state: State;
-  dispatch: Dispatch<Action>;
+  state: State
+  dispatch: Dispatch<Action>
 }>({
   state: InitialState,
   dispatch: () => null,
-});
+})
 
 function reducer(state: State, action: Action): State {
-  let newState = state;
+  let newState = state
   switch (action.type) {
     case "ADD_FAVORITE":
-      newState = { ...state, favorites: [...state.favorites, action.payload] };
-      break;
+      newState = { ...state, favorites: [...state.favorites, action.payload] }
+      break
     case "REMOVE_FAVORITE":
       newState = {
         ...state,
         favorites: state.favorites.filter((fav) => fav !== action.payload),
-      };
-      break;
+      }
+      break
     case "SET_POKEMON_ALL":
       newState = {
         ...state,
         pokemon_all: action.payload,
-      };
-      break;
+      }
+      break
     case "SET_REGIONS":
       newState = {
         ...state,
         regions: action.payload,
-      };
-      break;
+      }
+      break
     case "SET_TYPES":
       newState = {
         ...state,
         types: action.payload,
-      };
-      break;
+      }
+      break
     case "LOAD_FAVORITES": {
       newState = {
         ...state,
         favorites: [],
-      };
-      break;
+      }
+      break
+    }
+    case "SET_FILTER_POKEMON_BY_TYPE": {
+      newState = {
+        ...state,
+        pokemon_filtered_by_type: action.payload,
+      }
+      break
     }
     case "SET_POKEMON_DETAIL":
       newState = {
         ...state,
         pokemon_detail: action.payload,
-      };
-      break;
+      }
+      break
     case "SET_POKEMON_SEARCH_RESULTS":
       newState = {
         ...state,
         pokemon_search: action.payload,
-      };
-      break;
+      }
+      break
     case "SET_POKEMON_PAGINATION":
       newState = {
         ...state,
         pokemon_pagination: action.payload,
-      };
-      break;
+      }
+      break
+    case "STOP_FILTERING": {
+      newState = {
+        ...state,
+        pokemon_filtered_by_type: {
+          filtering: false,
+          loading: false,
+          results: [],
+          types: [],
+        },
+      }
+      break
+    }
+    case "STOP_SEARCH": {
+      newState = {
+        ...state,
+        pokemon_search: {
+          searching: false,
+          loading: false,
+          results: [],
+        },
+      }
+      break
+    }
     default:
-      break;
+      break
   }
-  return newState;
+  return newState
 }
 
 export const StoreProvider = (props: IProps) => {
-  const [state, dispatch] = useReducer(reducer, InitialState);
+  const [state, dispatch] = useReducer(reducer, InitialState)
 
-  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch])
   return (
     <StoreContext.Provider value={contextValue}>
       {props.children}
     </StoreContext.Provider>
-  );
-};
+  )
+}

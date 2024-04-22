@@ -1,11 +1,12 @@
-import { Cached } from "@/types";
+import { Cached, PokemonDetail } from "@/types"
 import {
+  FilterPokemonState,
   PokemonDetailState,
   PokemonIndex,
   PokemonPaginationState,
   PokemonRegion,
   PokemonSearchState,
-} from "@/types/state";
+} from "@/types/state"
 
 export type Action =
   | { type: "ADD_FAVORITE"; payload: number }
@@ -17,5 +18,11 @@ export type Action =
   | { type: "LOAD_FAVORITES" }
   | { type: "SET_POKEMON_DETAIL"; payload: PokemonDetailState }
   | { type: "LOAD_POKEMON_TYPE"; payload: string }
+  | {
+      type: "SET_FILTER_POKEMON_BY_TYPE"
+      payload: FilterPokemonState
+    }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_POKEMON_SEARCH_RESULTS"; payload: PokemonSearchState };
+  | { type: "SET_POKEMON_SEARCH_RESULTS"; payload: PokemonSearchState }
+  | { type: "STOP_FILTERING" }
+  | { type: "STOP_SEARCH" }
