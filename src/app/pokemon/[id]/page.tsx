@@ -95,11 +95,8 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
       </div>
       <div className={styles.pokemonSinglePage__details}>
         <PokemonSingleDetail
-          height={useMemo(() => {
-            return (pokemon?.detail?.height || 0) / 10
-          }, [pokemon?.detail.height])}
-          weight={useMemo(() => (pokemon?.detail?.weight || 0) / 10, [pokemon])}
-          color={typeValues?.color}
+          height={(pokemon?.detail?.height || 0) / 10}
+          weight={(pokemon?.detail?.weight || 0) / 10}
           location={pokemon?.locations ?? []}
           description={
             pokemon?.specie?.flavor_text_entries.find(

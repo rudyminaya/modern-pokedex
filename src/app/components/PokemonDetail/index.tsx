@@ -1,17 +1,11 @@
-import React, { ReactNode, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./styles.module.scss";
-import { PokemonDetail, PokemonSingleLocation, StatType } from "@/types";
-import About from "./About";
-import Status from "./Status";
-import Evolution from "./Evolution";
-import Location from "./Location";
-import {
-  EvolutionIcon,
-  LocationIcon,
-  PokemonFace,
-  StatsIcon,
-} from "../CustomIcons";
+import { PokemonDetail, PokemonSingleLocation, StatType, StatusValues } from "@/types";
+
 import { StoreContext } from "@/context/Store";
+import { TabIcon } from "./Tabs/TabIcon";
+import { TabName } from "./Tabs/types";
+import { TabContent } from "./Tabs/TabContent";
 
 type Props = {
   weight: number;
@@ -20,85 +14,34 @@ type Props = {
   description: string | undefined;
   status: StatType[];
   evolution: PokemonDetail[];
-  location:PokemonSingleLocation[]
+  location:PokemonSingleLocation[]  
 };
 
-type OptionsType = {
-  name: string;
-  component: ReactNode;
-  icon: ReactNode;
-};
-
-type CurrentType = {
-  name: string;
-  component: ReactNode;
-};
+const allTabs = [
+  TabName.About,
+  TabName.Status,
+  TabName.Evolution,
+  TabName.Location,
+];
 
 const PokemonSingleDetail = (props: Props) => {
   const { state } = useContext(StoreContext);
-  const [currentComponent, setCurrentComponent] = useState<CurrentType>({
-    name: "About",
-    component: (
-      <About
-        description={props.description ?? ""}
-        height={props.height}
-        weight={props.weight}
-        advantageAgainstType={props.advantageAgainstType}
-      />
-    ),
-  });
-  const options: OptionsType[] = [
-    {
-      name: "About",
-      component: (
-        <About
-          description={props.description ?? ""}
-          height={props.height}
-          weight={props.weight}
-          advantageAgainstType={props.advantageAgainstType}
-        />
-      ),
-      icon: <PokemonFace className={styles.icon} />,
-    },
-    {
-      name: "Status",
-      component: <Status values={props.status} />,
-      icon: <StatsIcon className={styles.icon} />,
-    },
-    {
-      name: "Evolution",
-      component: <Evolution data={props.evolution} />,
-      icon: <EvolutionIcon className={styles.icon} />,
-    },
-    {
-      name: "Location",
-      component: <Location locations={props.location} />,
-      icon: <LocationIcon className={styles.icon} />,
-    },
-  ];
+  const [currentTab, setCurrentTab] = useState<TabName>(TabName.About);
 
   return (
     <div className={styles.pokemonSingleDetail}>
       <div className={styles.tab}>
-        {options.map((option, index) => {
+        {allTabs.map((option, index) => {
           return (
             <div
               key={`option-${index}`}
               className={`${styles.tab__item} ${
-                currentComponent.name === option.name
-                  ? styles.activeComponent
-                  : ""
+                currentTab === option ? styles.activeComponent : ""
               }`}
-              onClick={() =>
-                setCurrentComponent((s) => ({
-                  ...s,
-                  component: option.component,
-                  name: option.name,
-                }))
-              }
-              title={option.name}
+              onClick={() => setCurrentTab(option)}
+              title={option}
             >
-              {option.icon}
+              <TabIcon name={option} />
             </div>
           );
         })}
@@ -107,7 +50,20 @@ const PokemonSingleDetail = (props: Props) => {
         {state.loading ? (
           <div>Loading...</div>
         ) : (
-          <div>{currentComponent.component}</div>
+          <div>
+            <TabContent
+              name={currentTab}
+              details={{
+                weight: props.weight,
+                height: props.height,
+                advantageAgainstType: props.advantageAgainstType,
+                description: props.description,
+                status: props.status,
+                evolution: props.evolution,
+                location: props.location
+              }}
+            ></TabContent>
+          </div>
         )}
       </div>
     </div>
