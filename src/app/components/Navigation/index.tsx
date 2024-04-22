@@ -1,11 +1,11 @@
-import React from "react"
-import styles from "./styles.module.scss"
+import React from "react";
+import styles from "./styles.module.scss";
 type Props = {
-  prevDisabled: boolean
-  nextDisabled: boolean
-  onNext: () => void
-  onPrev: () => void
-}
+  prevDisabled: boolean;
+  nextDisabled: boolean;
+  onNext: () => void;
+  onPrev: () => void;
+};
 
 const Navigation = (props: Props) => {
   return (
@@ -17,7 +17,7 @@ const Navigation = (props: Props) => {
         {`>`}
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

@@ -63,10 +63,10 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
       <div className={styles.pokemonSinglePage__container}>
         <h1 className={styles.pokemonSinglePage__title}>
           <Link href="/">
-          <HomeIcon className={styles.pokemonSinglePage__title__home}/>
+            <HomeIcon className={styles.pokemonSinglePage__title__home} />
           </Link>
-          <PokeBallIcon className={styles.pokemonSinglePage__title__pokeball} /> <span>{pokemon?.detail.name}</span>{" "}
-          <span>#{id}</span>{" "}
+          <PokeBallIcon className={styles.pokemonSinglePage__title__pokeball} />{" "}
+          <span>{pokemon?.detail.name}</span> <span>#{id}</span>{" "}
         </h1>
         <div className={styles.pokemonSinglePage__image}>
           <img src={urlImage} alt={pokemon?.detail.name} />

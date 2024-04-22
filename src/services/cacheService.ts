@@ -1,4 +1,4 @@
-import { Cached} from "@/types";
+import { Cached } from "@/types";
 import { PokemonIndex, PokemonRegion } from "@/types/state";
 
 const enum StorageKey {
