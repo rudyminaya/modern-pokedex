@@ -29,7 +29,7 @@ const About = (props: Props) => {
   return (
     <div className={styles.about}>
       <h3>About</h3>
-      <p>"{props.description ?? ""}"</p>
+      <p>{props.description?`"${props.description}"`: ""}</p>
       <div className={styles.about__size}>
         <div className={styles.about__size__item}>
           <p>Height</p>
