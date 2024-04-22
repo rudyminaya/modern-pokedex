@@ -1,32 +1,27 @@
 "use client"
 
 import { PokeBallIcon } from "@/app/components/CustomIcons"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo } from "react"
 import styles from "./styles.module.scss"
 import { StoreContext } from "@/context/Store"
 import { useRouter } from "next/navigation"
 import TypeLabel from "@/app/components/TypeLabel"
 import getPokemonIcon, { getPokemonLabelType } from "@/app/components/TypeIcon"
 import PokemonSingleDetail from "@/app/components/PokemonDetail"
-import { FlavorTextEntry } from "@/types"
+import { loadPokemonFromId } from "@/app/controller/pokemonController"
 
 const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
-  const { id } = params
+  const id = useMemo(() => params.id, [params.id])
   const { state, dispatch } = useContext(StoreContext)
   const router = useRouter()
   const limitPokemon = state?.pokemon_all.data?.length
-  const pokemon = state?.pokemon_detail
+  const pokemon = useMemo(() => state.pokemon_detail, [state.pokemon_detail])
 
   useEffect(() => {
-    dispatch({
-      type: "LOAD_POKEMON_DETAIL_FROM_ID",
-      payload: {
-        id: Number(id),
-      },
-    })
-  }, [])
+    loadPokemonFromId(Number(id), dispatch)
+  }, [id])
 
-  console.log("state : ", state)
+  console.log('state : ', state)
 
   const nextPokemon = () => {
     const nextId = parseInt(id) + 1
@@ -41,43 +36,22 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
     }
   }
   const urlImage =
-    pokemon?.sprites?.other?.["official-artwork"]?.front_default ?? ""
-  const typeValues = state.pokemon_type?.length
-    ? getPokemonIcon(getPokemonLabelType(state.pokemon_type[0].name))
+    pokemon?.detail?.sprites?.other?.["official-artwork"]?.front_default ?? ""
+  const typeValues = pokemon?.type?.length
+    ? getPokemonIcon(getPokemonLabelType(pokemon?.type[0].name))
     : {
         color: "",
         icon: "",
         name: "",
       }
 
-  const statsValues = pokemon?.stats.map((stat) => {
+  const statsValues = pokemon?.detail?.stats.map((stat) => {
     const obj = {
       name: stat.stat.name,
       value: stat.base_stat,
     }
     return obj
   })
-
-  const generateDetail = () => {
-    if (pokemon && state.pokemon_specie && state.pokemon_evolution_chain) {
-      return (
-        <PokemonSingleDetail
-          height={pokemon?.height / 10}
-          weight={pokemon?.weight / 10}
-          color={typeValues?.color}
-          description={
-            state?.pokemon_specie?.flavor_text_entries.find(
-              (v) => v.language.name === "en"
-            )?.flavor_text
-          }
-          status={statsValues ?? []}
-          evolution={state.pokemon_evolution_chain ?? []}
-          advantageAgainstType={state.advantage_against_types ?? []}
-        />
-      )
-    }
-  }
-  const detail = generateDetail()
 
   return (
     <main
@@ -89,14 +63,15 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
     >
       <div className={styles.pokemonSinglePage}>
         <h1 className={styles.pokemonSinglePage__title}>
-          <PokeBallIcon /> <span>{pokemon?.name}</span> <span>#{id}</span>{" "}
+          <PokeBallIcon /> <span>{pokemon?.detail.name}</span>{" "}
+          <span>#{id}</span>{" "}
         </h1>
         <div className={styles.pokemonSinglePage__image}>
           <PokeBallIcon className={styles.pokemonSinglePage__image__bg} />
-          <img src={urlImage} alt={pokemon?.name} />
-          {state.pokemon_type?.length && (
+          <img src={urlImage} alt={pokemon?.detail.name} />
+          {pokemon?.type?.length && (
             <div className={styles.pokemonSinglePage__types}>
-              {state.pokemon_type.map((type, index) => {
+              {pokemon?.type.map((type, index) => {
                 return (
                   <TypeLabel
                     key={`tipo-pokemon#${id}-${index}`}
@@ -118,7 +93,24 @@ const PokemonSinglePage = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
-      <div className={styles.pokemonSinglePage__details}>{detail}</div>
+      <div className={styles.pokemonSinglePage__details}>
+        <PokemonSingleDetail
+          height={useMemo(() => {
+            return (pokemon?.detail?.height || 0) / 10
+          }, [pokemon?.detail.height])}
+          weight={useMemo(() => (pokemon?.detail?.weight || 0) / 10, [pokemon])}
+          color={typeValues?.color}
+          location={pokemon?.locations ?? []}
+          description={
+            pokemon?.specie?.flavor_text_entries.find(
+              (v) => v.language.name === "en"
+            )?.flavor_text
+          }
+          status={statsValues ?? []}
+          evolution={pokemon?.evolutionChain ?? []}
+          advantageAgainstType={state.pokemon_detail?.advantageAgainstTypes ?? []}
+        />
+      </div>
     </main>
   )
 }

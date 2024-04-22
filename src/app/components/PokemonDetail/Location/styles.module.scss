@@ -1,0 +1,32 @@
+@import '../../../../styles/variables.scss';
+
+.location{
+    & > h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: $title-color;
+      }
+
+    &__list{
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+    &__item{
+        display: grid;
+        grid-template-columns: 115px 1fr;
+        column-gap: 20px;
+        align-items: center;
+    }
+    &__item.version{
+        padding: 5px 10px; 
+        background-color: #dfdfdf;
+        border-radius: 20px;
+        text-transform: capitalize;
+        font-weight: 600;
+    }
+    &__item.location{
+        display: block;
+        text-transform: capitalize;
+    }
+}
