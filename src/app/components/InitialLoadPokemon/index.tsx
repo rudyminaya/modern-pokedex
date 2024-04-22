@@ -1,15 +1,15 @@
-'use client';
-import { StoreContext } from "@/context/Store"
-import { useContext, useEffect } from "react"
+"use client";
+import { loadPokemonAll } from "@/app/controller/pokemonController";
+import { StoreContext } from "@/context/Store";
+
+import { useContext, useEffect } from "react";
 
 const InitialLoadPokemon = () => {
-  const { dispatch } = useContext(StoreContext)
+  const { dispatch } = useContext(StoreContext);
   useEffect(() => {
-    dispatch({
-      type: "LOAD_POKEMON_ALL",
-    })
-  }, [])
-  return <></>
-}
+    loadPokemonAll(dispatch);
+  }, []);
+  return <></>;
+};
 
-export default InitialLoadPokemon
+export default InitialLoadPokemon;
