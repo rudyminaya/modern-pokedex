@@ -1,14 +1,14 @@
 @import "../../../styles/mixin";
-.pokemonSinglePage {  
+.pokemonSinglePage {
   overflow: hidden;
-  position: relative;  
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;  
+  width: 100%;
 
-  &__container{
+  &__container {
     @include container;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -16,7 +16,7 @@
     width: 100%;
     z-index: 2;
   }
-  
+
   &__bg {
     position: absolute;
     z-index: 0;
@@ -29,15 +29,21 @@
   &__title {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     font-size: 20px;
     font-weight: 600;
     column-gap: 10px;
     color: #ffffff;
     text-transform: capitalize;
+    &__home{
+      max-height: 30px;
+      width: auto;
+      margin-right: 40px;
+    }
 
-    & > svg {
+    &__pokeball {
       max-height: 20px;
-      transform: rotate(-45deg);      
+      transform: rotate(-45deg);
     }
   }
   &__image {
@@ -49,14 +55,13 @@
     padding-top: 120px;
     z-index: 1;
 
-    
     & > img {
       height: 250px;
       width: auto;
       margin-bottom: 20px;
     }
   }
-  &__types{
+  &__types {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
@@ -69,8 +74,8 @@
     position: absolute;
     z-index: 1;
     top: 80%;
-    @media(min-width:900px){
-    top:50%;
+    @media (min-width: 900px) {
+      top: 50%;
     }
     & > button {
       background-color: #ffffff;
@@ -81,13 +86,13 @@
       font-size: 18px;
       font-family: monospace;
       font-weight: 700;
-      @media(min-width:900px){
+      @media (min-width: 900px) {
         height: 60px;
         width: 60px;
         font-size: 25px;
       }
 
-      &:not([disabled]) {
+      &:not(:disabled) {
         cursor: pointer;
       }
 
@@ -97,7 +102,7 @@
       }
     }
   }
-  &__details{
+  &__details {
     width: 100%;
   }
 }

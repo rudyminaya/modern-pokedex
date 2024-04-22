@@ -1,33 +1,17 @@
-import React, { useContext } from "react"
-import styles from "./styles.module.scss"
-import InputSearch from "../InputSearch"
-import { PokeBallIcon } from "../CustomIcons"
-import { StoreContext } from "@/context/Store"
-import { getPokemon } from "@/services/pokemonService"
-import { PokemonDetail } from "@/types"
+import React, { useContext } from "react";
+import styles from "./styles.module.scss";
+import InputSearch from "../InputSearch";
+import { PokeBallIcon } from "../CustomIcons";
+import { StoreContext } from "@/context/Store";
+import { searchPokemonByName } from "@/app/controller/pokemonController";
 
-type Props = {
-  pokemonData: (data: PokemonDetail[]) => void
-}
-
-const Search = (props: Props) => {
-  const { state } = useContext(StoreContext)
-  const {
-    pokemon_all: { data },
-  } = state
+const Search = () => {
+  const { dispatch, state } = useContext(StoreContext);
 
   const findPokemon = async (value: string) => {
-    const valueTransformed = value.toLowerCase()
-    const result = data.filter((p: any) => p.name.includes(valueTransformed))
+    searchPokemonByName(value, state.pokemon_all.data, dispatch);
+  };
 
-    const newData = await Promise.all(
-      result.map(async (item: any) => {
-        const pokemon = await getPokemon(item.url)
-        return pokemon
-      })
-    )
-    props.pokemonData(newData)
-  }
   return (
     <main className={styles.search}>
       <div className={styles.search__container}>
@@ -40,7 +24,7 @@ const Search = (props: Props) => {
         </div>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

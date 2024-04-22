@@ -15,7 +15,7 @@ type Props = {
     status: StatType[];
     evolution: PokemonDetail[];
     location: PokemonSingleLocation[];
-    color:string;
+    color: string;
   };
 };
 
@@ -35,6 +35,11 @@ export const TabContent = (props: Props) => {
     case TabName.Evolution:
       return <Evolution data={props.details.evolution} />;
     case TabName.Location:
-      return <Location locations={props.details.location} color={props.details.color} />;
+      return (
+        <Location
+          locations={props.details.location}
+          color={props.details.color}
+        />
+      );
   }
 };

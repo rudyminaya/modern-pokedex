@@ -5,10 +5,9 @@
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
   @include container;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #e7e7e7;
-  
+  background-color: $default;
+
+
   @media (min-width: 880px) {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }

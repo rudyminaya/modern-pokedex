@@ -1,18 +1,18 @@
-import React from "react"
-import getPokemonIcon, { PokemonLabelType } from "../TypeIcon"
-import styles from "./styles.module.scss"
+import React from "react";
+import getPokemonIcon, { PokemonLabelType } from "../TypeIcon";
+import styles from "./styles.module.scss";
 
 type Props = {
-    type: PokemonLabelType
-}
+  type: PokemonLabelType;
+};
 
 const TypeLabel = (props: Props) => {
-  const type = getPokemonIcon(props.type)
+  const type = getPokemonIcon(props.type);
   return (
-    <div className={styles.typeLabel} style={{backgroundColor:type?.color}}>
+    <div className={styles.typeLabel} style={{ backgroundColor: type?.color }}>
       {type?.icon} {type.name}
     </div>
-  )
-}
+  );
+};
 
-export default TypeLabel
+export default TypeLabel;

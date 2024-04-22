@@ -1,4 +1,3 @@
-
 "use client";
 import { State } from "@/types";
 import { Dispatch, ReactNode, createContext, useMemo, useReducer } from "react";
@@ -20,13 +19,25 @@ const InitialState: State = {
     data: [],
   },
   pokemon_detail: undefined,
-  pokemon_page: { next: null, previous: null, results: [] },
+  pokemon_pagination: {
+    loading: false,
+    page: {
+      next: null,
+      previous: null,
+      results: [],
+    },
+  },
   favorites: [],
   regions: {
     timestamp: 0,
     data: [],
   },
   types: { timestamp: 0, data: [] },
+  pokemon_search: {
+    searching: false,
+    loading: false,
+    results: [],
+  },
 };
 
 export const StoreContext = createContext<{
@@ -37,7 +48,7 @@ export const StoreContext = createContext<{
   dispatch: () => null,
 });
 
-function reducer(state: State, action: Action): State {  
+function reducer(state: State, action: Action): State {
   let newState = state;
   switch (action.type) {
     case "ADD_FAVORITE":
@@ -79,6 +90,19 @@ function reducer(state: State, action: Action): State {
         ...state,
         pokemon_detail: action.payload,
       };
+      break;
+    case "SET_POKEMON_SEARCH_RESULTS":
+      newState = {
+        ...state,
+        pokemon_search: action.payload,
+      };
+      break;
+    case "SET_POKEMON_PAGINATION":
+      newState = {
+        ...state,
+        pokemon_pagination: action.payload,
+      };
+      break;
     default:
       break;
   }

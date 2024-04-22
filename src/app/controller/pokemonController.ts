@@ -1,8 +1,9 @@
 import { Action } from "@/context/actionTypes"
 import * as PokemonService from "@/services/pokemonService"
 import * as CacheService from "@/services/cacheService"
-import { Cached, Chain, PokemonIndex } from "@/types"
+import { Chain, State } from "@/types"
 import { Dispatch } from "react"
+import { PokemonIndex } from "@/types/state"
 
 export const loadPokemonAll = async (dispatch: Dispatch<Action>) => {
   const cachedResult = await CacheService.getAllPokemon()
@@ -85,7 +86,7 @@ export const loadTypesAll = async (dispatch: Dispatch<Action>) => {
 export const loadPokemonFromId = async (
   id: number,
   dispatch: Dispatch<Action>
-) => {  
+) => {
   dispatch({
     type: "SET_LOADING",
     payload: true,
@@ -160,6 +161,87 @@ export const loadPokemonFromId = async (
       type: getTypesPokemon,
       advantageAgainstTypes: uniqueArrAdvantageAgainstTypes,
       locations: dataLocations,
+    },
+  })
+}
+
+export const loadPokemonPaginated = async (
+  state: State,
+  dispatch: Dispatch<Action>,
+  forceUrl: string | undefined = undefined
+) => {
+  dispatch({
+    type: "SET_POKEMON_PAGINATION",
+    payload: {
+      loading: true,
+      page: state.pokemon_pagination.page,
+    },
+  })
+
+  const result = await PokemonService.getPokemonsPaginated(20, 0, forceUrl)
+  const newData = await Promise.all(
+    result.results.map(async (item: any) => {
+      const pokemon = await PokemonService.getPokemon(item.url)
+      return pokemon
+    })
+  )
+
+  dispatch({
+    type: "SET_POKEMON_PAGINATION",
+    payload: {
+      loading: false,
+      page: {
+        next: result.next,
+        previous: result.previous,
+        results: newData,
+      },
+    },
+  })
+}
+
+export const searchPokemonByName = async (
+  name: string,
+  allPokemon: PokemonIndex[],
+  dispatch: Dispatch<Action>
+) => {
+  if (name.length === 0) {
+    dispatch({
+      type: "SET_POKEMON_SEARCH_RESULTS",
+      payload: {
+        searching: false,
+        loading: false,
+        results: [],
+      },
+    })
+    return
+  }
+
+  dispatch({
+    type: "SET_POKEMON_SEARCH_RESULTS",
+    payload: {
+      searching: true,
+      loading: true,
+      results: [],
+    },
+  })
+  const valueTransformed = name.toLowerCase()
+
+  const matchedPokemons = allPokemon.filter((p: any) =>
+    p.name.includes(valueTransformed)
+  )
+
+  const results = await Promise.all(
+    matchedPokemons.map(async (item: any) =>
+      PokemonService.getPokemon(item.url)
+    )
+  )
+
+  dispatch({
+    type: "SET_POKEMON_SEARCH_RESULTS",
+    payload: {
+      searching: true,
+      loading: false,
+      results,
     },
   })
 }

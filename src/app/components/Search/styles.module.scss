@@ -25,10 +25,10 @@
     opacity: 0.2;
     z-index: 0;
   }
-  &::after{
+  &::after {
     content: "";
     position: absolute;
-    background-color: #e7e7e7;
+    background-color: $default;
     width: 100%;
     min-height: 100px;
     bottom: -60px;

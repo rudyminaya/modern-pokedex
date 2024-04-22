@@ -20,9 +20,9 @@
     border-left: 1px solid $text-color;
     background-color: transparent;
     cursor: pointer;
-    
+
     &[disabled] {
-      background-color: #e7e7e7;
+      background-color: $default;
       opacity: 0.5;
       cursor: not-allowed;
     }

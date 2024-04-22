@@ -1,4 +1,5 @@
-import { Cached, PokemonIndex, PokemonRegion } from "@/types";
+import { Cached} from "@/types";
+import { PokemonIndex, PokemonRegion } from "@/types/state";
 
 const enum StorageKey {
   POKEMON_ALL = "POKEMON_ALL",

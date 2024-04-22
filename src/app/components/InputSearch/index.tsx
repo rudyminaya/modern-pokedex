@@ -1,20 +1,20 @@
-import { FormEvent, useEffect, useState } from "react"
-import styles from "./styles.module.scss"
+import { FormEvent, useState } from "react";
+import styles from "./styles.module.scss";
 type Props = {
-  onSubmit: (value: string) => void
-}
+  onSubmit: (value: string) => void;
+};
 
 const InputSearch = (props: Props) => {
-  const [stringSearchValue, setStringSearchValue] = useState<string>("")
+  const [stringSearchValue, setStringSearchValue] = useState<string>("");
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    props.onSubmit(stringSearchValue)
-  }
+    event.preventDefault();
+    props.onSubmit(stringSearchValue);
+  };
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    const val = event.currentTarget.value
-    setStringSearchValue(val)
-  }
+    const val = event.currentTarget.value;
+    setStringSearchValue(val);
+  };
 
   return (
     <form className={styles.inputSearch} onSubmit={handleSubmit}>
@@ -25,11 +25,9 @@ const InputSearch = (props: Props) => {
         placeholder="Search"
         onChange={handleChange}
       />
-      <button type="submit" disabled={!stringSearchValue.length}>
-        🔍︎
-      </button>
+      <button type="submit">🔍</button>
     </form>
-  )
-}
+  );
+};
 
-export default InputSearch
+export default InputSearch;

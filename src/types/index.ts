@@ -1,5 +1,12 @@
 import { ReactNode } from "react";
-import { PokemonDetailState } from "./state";
+import {
+  PokemonDetailState,
+  PokemonIndex,
+  PokemonPaginationState,
+  PokemonRegion,
+  PokemonSearchState,
+  PokemonType,
+} from "./state";
 
 export type EntrieType = {
   name: string;
@@ -15,35 +22,24 @@ export type Cached<T> = {
   timestamp: number;
   data: T;
 };
+export type Paginated<T> = {
+  previous: string | null;
+  next: string | null;
+  results: T;
+};
 
 export type State = {
   loading: boolean;
   pokemon_all: Cached<PokemonIndex[]>;
-  pokemon_page: PokemonPage;
+  pokemon_pagination: PokemonPaginationState;
   pokemon_detail: PokemonDetailState | undefined;
   favorites: number[];
   regions: Cached<PokemonRegion[]>;
   types: Cached<PokemonType[]>;
   error?: Error;
+  pokemon_search: PokemonSearchState;
 };
 
-export type PokemonType = {
-  name: string;
-  url: string;
-};
-export type PokemonIndex = {
-  name: string;
-  url: string;
-};
-export type PokemonRegion = {
-  name: string;
-  url: string;
-};
-export type PokemonPage = {
-  next: string | null;
-  previous: string | null;
-  results: PokemonIndex[];
-};
 //se define la estructura de los datos que se obtienen de la api
 export type PokemonDetail = {
   abilities: Ability[];

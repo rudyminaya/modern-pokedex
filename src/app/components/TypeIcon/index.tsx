@@ -21,45 +21,45 @@ export const enum PokemonLabelType {
 export const getPokemonLabelType = (type: string): PokemonLabelType => {
   switch (type) {
     case "bug":
-      return PokemonLabelType.Bug
+      return PokemonLabelType.Bug;
     case "dark":
-      return PokemonLabelType.Dark
+      return PokemonLabelType.Dark;
     case "dragon":
-      return PokemonLabelType.Dragon
+      return PokemonLabelType.Dragon;
     case "electric":
-      return PokemonLabelType.Electric
+      return PokemonLabelType.Electric;
     case "fairy":
-      return PokemonLabelType.Fairy
+      return PokemonLabelType.Fairy;
     case "fighting":
-      return PokemonLabelType.Fighting
+      return PokemonLabelType.Fighting;
     case "fire":
-      return PokemonLabelType.Fire
+      return PokemonLabelType.Fire;
     case "flying":
-      return PokemonLabelType.Flying
+      return PokemonLabelType.Flying;
     case "ghost":
-      return PokemonLabelType.Ghost
+      return PokemonLabelType.Ghost;
     case "grass":
-      return PokemonLabelType.Grass
+      return PokemonLabelType.Grass;
     case "ground":
-      return PokemonLabelType.Ground
+      return PokemonLabelType.Ground;
     case "ice":
-      return PokemonLabelType.Ice
+      return PokemonLabelType.Ice;
     case "normal":
-      return PokemonLabelType.Normal
+      return PokemonLabelType.Normal;
     case "poison":
-      return PokemonLabelType.Poison
+      return PokemonLabelType.Poison;
     case "psychic":
-      return PokemonLabelType.Psychic
+      return PokemonLabelType.Psychic;
     case "rock":
-      return PokemonLabelType.Rock
+      return PokemonLabelType.Rock;
     case "steel":
-      return PokemonLabelType.Steel
+      return PokemonLabelType.Steel;
     case "water":
-      return PokemonLabelType.Water
+      return PokemonLabelType.Water;
     default:
-      throw new Error("Invalid type")
+      throw new Error("Invalid type");
   }
-}
+};
 
 export const PokemonTypeColor = {
   [PokemonLabelType.Bug]: "#91a119",
@@ -80,10 +80,10 @@ export const PokemonTypeColor = {
   [PokemonLabelType.Rock]: "#afa981",
   [PokemonLabelType.Steel]: "#60a1b8",
   [PokemonLabelType.Water]: "#3f7bd5",
-}
+};
 
 const pokemonTypeIcon = (type: PokemonLabelType) => {
-  const color = PokemonTypeColor[type]
+  const color = PokemonTypeColor[type];
 
   switch (type) {
     case PokemonLabelType.Bug:
@@ -95,7 +95,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
 
     case PokemonLabelType.Dark:
       return (
@@ -118,7 +118,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             />
           </g>
         </svg>
-      )
+      );
     case PokemonLabelType.Dragon:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -128,7 +128,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
 
     case PokemonLabelType.Electric:
       return (
@@ -139,7 +139,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Fairy:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -149,7 +149,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
 
     case PokemonLabelType.Fighting:
       return (
@@ -160,7 +160,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Fire:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -170,7 +170,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
 
     case PokemonLabelType.Flying:
       return (
@@ -181,7 +181,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Ghost:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -191,7 +191,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Grass:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -201,7 +201,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Ground:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -223,7 +223,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             />
           </g>
         </svg>
-      )
+      );
     case PokemonLabelType.Ice:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -252,7 +252,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             />
           </g>
         </svg>
-      )
+      );
     case PokemonLabelType.Normal:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -262,7 +262,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Poison:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -282,7 +282,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             <circle fill="#fff" cx="51.28" cy="37.57" r="6.64" />
           </g>
         </svg>
-      )
+      );
     case PokemonLabelType.Psychic:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -292,7 +292,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Rock:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -302,7 +302,7 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             d="M58.71 18l2.67 11.72-14.39-14.39L58.71 18l-8.43-8.43H26.43L9.57 26.43v23.85l8.23 8.23-4.49-19.72L37.52 63 17.8 58.51l8.63 8.63h23.85l8.43-8.43-19.72 4.49L63.2 38.99l-4.49 19.72 8.43-8.43V26.43L58.71 18z"
           />
         </svg>
-      )
+      );
     case PokemonLabelType.Steel:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -315,17 +315,17 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
               ry="6.57"
               fill="#60a1b8"
             />
-            <path              
+            <path
               fill="#FFFFFF"
               d="M41 27.35l9.18 32.02 17.37-12.62-8.03-24.71L41 27.35zM52.3 37.6c-2.52 0-4.56-2.04-4.56-4.56s2.04-4.56 4.56-4.56 4.56 2.04 4.56 4.56-2.04 4.56-4.56 4.56z"
             />
-            <path              
+            <path
               fill="#FFFFFF"
               d="M37.9 38.21l-4.29-14.95 24.07-6.9-1.28-3.93H20.3L9.15 46.75l28.75-8.54zM26.03 15.23c1.87 0 3.38 1.51 3.38 3.38s-1.51 3.38-3.38 3.38-3.38-1.51-3.38-3.38 1.51-3.38 3.38-3.38zm13.01 26.95l-25.69 7.63 25 18.17 6.69-4.87-6-20.93z"
             />
           </g>
         </svg>
-      )
+      );
     case PokemonLabelType.Water:
       return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76.71 76.71">
@@ -335,19 +335,19 @@ const pokemonTypeIcon = (type: PokemonLabelType) => {
             fill="#fff"
           />
         </svg>
-      )
+      );
   }
-}
+};
 
 function getPokemonIcon(idType: PokemonLabelType) {
-  const color = PokemonTypeColor[idType]
-  const icon = pokemonTypeIcon(idType)
-  const name = idType
+  const color = PokemonTypeColor[idType];
+  const icon = pokemonTypeIcon(idType);
+  const name = idType;
   return {
     color,
     icon,
     name,
-  }
+  };
 }
 
-export default getPokemonIcon
+export default getPokemonIcon;

@@ -1,12 +1,12 @@
-import React from "react"
-import styles from "./styles.module.scss"
-import Link from "next/link"
+import React from "react";
+import styles from "./styles.module.scss";
+import Link from "next/link";
 
 type Props = {
-  name: string
-  id: number
-  img: string
-}
+  name: string;
+  id: number;
+  img: string;
+};
 
 const ItemCard = (props: Props) => {
   return (
@@ -19,7 +19,7 @@ const ItemCard = (props: Props) => {
       />
       <p className={styles.itemCard__name}>{props.name}</p>
     </Link>
-  )
-}
+  );
+};
 
-export default ItemCard
+export default ItemCard;
